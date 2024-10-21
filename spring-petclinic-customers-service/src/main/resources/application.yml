@@ -1,13 +1,36 @@
 spring:
   application:
     name: customers-service
-  config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/petclinic}
+    username: ${DATABASE_USER:root}
+    password: ${DATABASE_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  profiles:
+    exclude: docker
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+    sleuth:
+      enabled: false
+    zipkin:
+      enabled: false
+
+eureka:
+  client:
+    enabled: false
+  instance:
+    enabled: false
+
+server:
+  port: 8081
 
 
----
-spring:
-  config:
-    activate:
-      on-profile: docker
-    import: configserver:http://config-server:8888
+
+

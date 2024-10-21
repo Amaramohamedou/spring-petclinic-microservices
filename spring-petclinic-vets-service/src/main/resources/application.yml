@@ -1,16 +1,32 @@
 spring:
   application:
     name: vets-service
-  config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
-  cache:
-    cache-names: vets
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/petclinic}
+    username: ${DATABASE_USER:root}
+    password: ${DATABASE_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
   profiles:
-    active: production
+    exclude: docker
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+    sleuth:
+      enabled: false
+    zipkin:
+      enabled: false
 
----
-spring:
-  config:
-    activate:
-      on-profile: docker
-    import: configserver:http://config-server:8888
+eureka:
+  client:
+    enabled: false
+  instance:
+    enabled: false
+
+server:
+  port: 8083
